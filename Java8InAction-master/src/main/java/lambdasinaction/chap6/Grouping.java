@@ -11,14 +11,22 @@ public class Grouping {
 
     public static void main(String ... args) {
         System.out.println("Dishes grouped by type: " + groupDishesByType());
-        System.out.println("Dishes grouped by caloric level: " + groupDishesByCaloricLevel());
+        Map<CaloricLevel, List<Dish>> caloricLevelListMap = groupDishesByCaloricLevel();
+        System.out.println("Dishes grouped by caloric level: "+caloricLevelListMap );
         System.out.println("Dishes grouped by type and caloric level: " + groupDishedByTypeAndCaloricLevel());
         System.out.println("Count dishes in groups: " + countDishesInGroups());
         System.out.println("Most caloric dishes by type: " + mostCaloricDishesByType());
         System.out.println("Most caloric dishes by type: " + mostCaloricDishesByTypeWithoutOprionals());
         System.out.println("Sum calories by type: " + sumCaloriesByType());
-        System.out.println("Caloric levels by type: " + caloricLevelsByType());
+        Map<Dish.Type, Set<CaloricLevel>> typeSetMap1 = caloricLevelsByType();
+        System.out.println("Caloric levels by type: " +typeSetMap1);
+        Map<Dish.Type, Set<CaloricLevel>> typeSetMap = grounpByHash();
+        System.out.println("typeSetMap levels by type: " + typeSetMap);
+
+        
     }
+
+
 
     private static Map<Dish.Type, List<Dish>> groupDishesByType() {
         return menu.stream().collect(groupingBy(Dish::getType));
@@ -35,8 +43,8 @@ public class Grouping {
 
     private static Map<Dish.Type, Map<CaloricLevel, List<Dish>>> groupDishedByTypeAndCaloricLevel() {
         return menu.stream().collect(
-                groupingBy(Dish::getType,
-                        groupingBy((Dish dish) -> {
+                groupingBy(Dish::getType,//一级分类
+                        groupingBy((Dish dish) -> {//二级分类
                             if (dish.getCalories() <= 400) return CaloricLevel.DIET;
                             else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
                             else return CaloricLevel.FAT;
@@ -74,6 +82,16 @@ public class Grouping {
                         dish -> { if (dish.getCalories() <= 400) return CaloricLevel.DIET;
                         else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
                         else return CaloricLevel.FAT; },
-                        toSet() )));
+                        toSet() )));// toSet()去重复，注意第一个参数，只有一个参数，和第二个参数的区别
     }
+
+    private static Map<Dish.Type, Set<CaloricLevel>> grounpByHash() {
+        return menu.stream().collect(
+                groupingBy(Dish::getType, mapping(
+                        dish -> { if (dish.getCalories() <= 400) return CaloricLevel.DIET;
+                        else if (dish.getCalories() <= 700) return CaloricLevel.NORMAL;
+                        else return CaloricLevel.FAT; },
+                        toCollection(HashSet::new) )));
+    }
+
 }

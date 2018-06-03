@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Java8inActionSourceCode.iml" filepath="$PROJECT_DIR$/.idea/Java8inActionSourceCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/java_8_in_action.iml" filepath="$PROJECT_DIR$/.idea/java_8_in_action.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Java8InAction-master/lambdasinaction.iml" filepath="$PROJECT_DIR$/Java8InAction-master/lambdasinaction.iml" />
       <module fileurl="file://$PROJECT_DIR$/Java8InAction-master/lambdasinaction.iml" filepath="$PROJECT_DIR$/Java8InAction-master/lambdasinaction.iml" />
     </modules>
   </component>

@@ -26,15 +26,15 @@ public class GroupingTransactions {
     }
 
     private static void groupImperatively() {
-        Map<Currency, List<Transaction>> transactionsByCurrencies = new HashMap<>();
+        Map<Currency, List<Transaction>> transactionsByCurrencies = new HashMap<>();//建立累积交易分组的 Map，分组使用Map最好
         for (Transaction transaction : transactions) {
-            Currency currency = transaction.getCurrency();
-            List<Transaction> transactionsForCurrency = transactionsByCurrencies.get(currency);
-            if (transactionsForCurrency == null) {
+            Currency currency = transaction.getCurrency();//提取Transaction 的货币
+            List<Transaction> transactionsForCurrency = transactionsByCurrencies.get(currency);//根据货币获取分组条目，根据类别获取Map
+            if (transactionsForCurrency == null) {//如果分组Map中没有这种货币的条目，就创建一个,没有就新增分组，还要给list空间
                     transactionsForCurrency = new ArrayList<>();
                 transactionsByCurrencies.put(currency, transactionsForCurrency);
             }
-            transactionsForCurrency.add(transaction);
+            transactionsForCurrency.add(transaction);//将当前遍历的Transaction 加入同一货币的Transaction 的List，然后就把分组内存存进去
         }
 
         System.out.println(transactionsByCurrencies);
